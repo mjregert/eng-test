@@ -1,44 +1,17 @@
 package fitpay.engtest.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompositeUser {
-    private String creditCardId;
-    private String deviceId;
-    private String state;
     private String userId;
+    private List<CompositeCreditCard> creditCards;
+    private List<CompositeDevice> devices;
 
-    public CompositeUser(String state, String userId) {
-        this(null, null, state, userId);
-    }
-
-    public CompositeUser(String creditCardId, String deviceId, String state, String userId) {
-        this.creditCardId = creditCardId;
-        this.deviceId = deviceId;
-        this.state = state;
+    public CompositeUser(String userId) {
         this.userId = userId;
-    }
-
-    public String getCreditCardId() {
-        return creditCardId;
-    }
-
-    public void setCreditCardId(String creditCardId) {
-        this.creditCardId = creditCardId;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+        creditCards = new ArrayList<>();
+        devices = new ArrayList<>();
     }
 
     public String getUserId() {
@@ -47,5 +20,21 @@ public class CompositeUser {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public List<CompositeCreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(List<CompositeCreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
+    public List<CompositeDevice> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<CompositeDevice> devices) {
+        this.devices = devices;
     }
 }

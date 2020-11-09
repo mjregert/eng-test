@@ -1,7 +1,6 @@
 package fitpay.engtest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fitpay.engtest.Application;
 import fitpay.engtest.models.User;
 import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
@@ -10,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.*;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,49 +21,31 @@ public class UsersController extends BaseController {
     @ResponseBody
     public List<User> getUsers() throws IOException, InterruptedException {
         String url = String.format("%s/%s", BASEURL, "users");
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Authorization", "Bearer " + Application.bearerToken)
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return getUsers(getResults(response));
+        HttpResponse<String> response = sendGet(url);
+        return getUsers(response);
     }
 
     @GetMapping("/users/{id}")
     @ResponseBody
     public User getUser(@PathVariable String id) throws IOException, InterruptedException {
         String url = String.format("%s/%s/%s", BASEURL, "users", id);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Authorization", "Bearer " + Application.bearerToken)
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return getUser(getResult(response));
+        HttpResponse<String> response = sendGet(url);
+        return getUser(response);
     }
 
-    private JSONArray getResults(HttpResponse<String> response) {
-        // Convert the response to an array of objects
+    private List<User> getUsers(HttpResponse<String> response) throws IOException {
         JSONObject responseJson = new JSONObject(response.body());
-        return responseJson.getJSONArray("results");
-    }
-
-    private JSONObject getResult(HttpResponse<String> response) {
-        // Convert the response to an array of objects
-        return new JSONObject(response.body());
-    }
-
-    private List<User> getUsers(JSONArray array) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
         List<User> users = new ArrayList<>();
-
-        for (Object user: array) {
-            users.add(getUser((JSONObject)user));
+        if (responseJson.has("results")) {
+            JSONArray array = responseJson.getJSONArray("results");
+            for (Object user : array) {
+                users.add(getUser((JSONObject) user));
+            }
         }
         return users;
+    }
+    private User getUser(HttpResponse<String> response) throws IOException {
+        return getUser(new JSONObject(response.body()));
     }
 
     private User getUser(JSONObject json) throws IOException {

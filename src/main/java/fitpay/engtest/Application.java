@@ -10,7 +10,7 @@ public class Application {
     public static String bearerToken = "";
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("oAuthToken required to be passed in");
+            System.out.println("Bearer Token required to be passed in");
             return;
         }
         Application.bearerToken = args[0];

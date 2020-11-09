@@ -4,28 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    private String id;
-    private String userId;
     private String createdTs;
     private String createdTsEpoch;
+    private String id;
     private String lastModifiedTs;
     private String lastModifiedTsEpoch;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    private String userId;
 
     public String getCreatedTs() {
         return createdTs;
@@ -43,6 +27,14 @@ public class User {
         this.createdTsEpoch = createdTsEpoch;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getLastModifiedTs() {
         return lastModifiedTs;
     }
@@ -57,5 +49,13 @@ public class User {
 
     public void setLastModifiedTsEpoch(String lastModifiedTsEpoch) {
         this.lastModifiedTsEpoch = lastModifiedTsEpoch;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
